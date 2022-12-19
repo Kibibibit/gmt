@@ -1,0 +1,52 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+_global_script_classes=[{
+"base": "Object",
+"class": &"Grid",
+"language": &"GDScript",
+"path": "res://scripts/utils/data_structures/Grid.gd"
+}, {
+"base": "Node2D",
+"class": &"Root",
+"language": &"GDScript",
+"path": "res://scripts/scenes/Root.gd"
+}, {
+"base": "Node2D",
+"class": &"World",
+"language": &"GDScript",
+"path": "res://scripts/scenes/World.gd"
+}]
+_global_script_class_icons={
+"Grid": "",
+"Root": "",
+"World": ""
+}
+
+[application]
+
+config/name="gmt"
+run/main_scene="res://scenes/root.tscn"
+config/features=PackedStringArray("4.0", "Mobile")
+config/icon="res://icon.svg"
+
+[autoload]
+
+Game="*res://scripts/utils/singletons/Game.gd"
+Utils="*res://scripts/utils/singletons/Utils.gd"
+
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=640
+
+[rendering]
+
+renderer/rendering_method="mobile"

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://daamrqldcyxxg"]
+
+[ext_resource type="Script" path="res://scripts/scenes/Root.gd" id="1_to7l0"]
+
+[node name="Root" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_to7l0")
