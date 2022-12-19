@@ -5,16 +5,36 @@ const player_id = 1
 
 @onready
 var data: Dictionary = {
-	player_id: DemonStats.new(player_id, 1, 0.0, 0.0, 0.0, 0.0, 0.0)
+	player_id: DemonStats.new(
+		"Player", #Name
+		1, #Starting Level
+		0.0, #Hp Growth
+		0.0, #Mp Growth
+		0.0, #Str Growth
+		0.0, #Mag Growth
+		0.0  #Spd Growth
+	),
+	2: DemonStats.new(
+		"Jack Frost", #Name
+		1, #Starting Level
+		0.4, #Hp Growth
+		1.0, #Mp Growth
+		0.3, #Str Growth
+		0.8, #Mag Growth
+		0.3  #Spd Growth
+	),
 }
 
 func get_demon(id: int):
 	if (data.has(id)):
-		return data[id]
+		var d = data[id]
+		d.id = id
+		return d
 	else:
 		return null
 
 class DemonStats:
+	var demon_name: String
 	var id: int
 	var start_level: int
 	var hp_growth: float
@@ -23,8 +43,8 @@ class DemonStats:
 	var magic_growth: float
 	var speed_growth: float
 	
-	func _init(_id: int, _start_level: int, _hp_growth: float, _mp_growth: float, _strength_growth: float, _magic_growth: float, _speed_growth:float):
-		id = _id
+	func _init(_demon_name: String,_start_level: int, _hp_growth: float, _mp_growth: float, _strength_growth: float, _magic_growth: float, _speed_growth:float):
+		demon_name = _demon_name
 		start_level = _start_level
 		hp_growth = _hp_growth
 		mp_growth = _mp_growth

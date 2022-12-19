@@ -20,6 +20,11 @@ _global_script_classes=[{
 "path": "res://scripts/utils/data_structures/Grid.gd"
 }, {
 "base": "Node2D",
+"class": &"PlayerMap",
+"language": &"GDScript",
+"path": "res://scripts/entities/PlayerMap.gd"
+}, {
+"base": "Node2D",
 "class": &"Root",
 "language": &"GDScript",
 "path": "res://scripts/scenes/Root.gd"
@@ -32,6 +37,7 @@ _global_script_classes=[{
 _global_script_class_icons={
 "Demon": "",
 "Grid": "",
+"PlayerMap": "",
 "Root": "",
 "World": ""
 }

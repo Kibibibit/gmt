@@ -22,6 +22,7 @@ func _init(_demon_id: int):
 	
 	var data = DemonData.get_demon(demon_id)
 	var start_level = data.start_level
+	name = data.demon_name
 	hp_growth = data.hp_growth
 	mp_growth = data.mp_growth
 	speed_growth = data.speed_growth
@@ -34,8 +35,8 @@ func _init(_demon_id: int):
 	mp = max_mp
 	
 func random_level_stat(chance: float) -> int:
-	if (randf() < chance):
-		if (randf() < chance):
+	if (randf() <= chance):
+		if (randf() <= chance/2):
 			return 2
 		return 1
 	return 0

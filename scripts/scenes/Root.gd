@@ -5,7 +5,8 @@ func _init():
 	super()
 	# Force this node to have the right name just in case
 	self.name = Game.root_node_name
-	
+
+
 
 func _ready():
 	randomize()
