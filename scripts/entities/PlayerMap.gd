@@ -40,10 +40,11 @@ func _process(delta):
 			moved()
 	
 	self.position = self.position.lerp(PlayerData.map_pos * world.tile_size, delta*lerp_speed)
-
+	
 func moved():
 	can_move = false
 	move_timer.start(move_speed)
+	
 
 func _on_timeout():
 	can_move = true
