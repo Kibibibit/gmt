@@ -16,14 +16,15 @@ func _init(s: String, p:String, n: String):
 	super(make_text())
 
 func _unhandled_input(event):
-	if (event.is_action_pressed("ui_up") || event.is_action_pressed("ui_down")):
-		selected = abs(selected-1)
-		text.set_string(make_text())
-		Game.handle_input()
-	elif (event.is_action_pressed("ui_accept")):
-		ret_value = selected+yes_no_offset
-		pop_dialog()
-		Game.handle_input()
+	if (is_current_dialog):
+		if (event.is_action_pressed("ui_up") || event.is_action_pressed("ui_down")):
+			selected = abs(selected-1)
+			text.set_string(make_text())
+			Game.handle_input()
+		elif (event.is_action_pressed("ui_accept")):
+			ret_value = selected+yes_no_offset
+			pop_dialog()
+			Game.handle_input()
 
 
 func make_text():

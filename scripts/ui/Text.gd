@@ -36,6 +36,7 @@ const alphabet = {
 
 const newline = "\n"
 const char_size = 16
+const vert_space = 5
 
 var texture = load("res://sprites/font-white.png")
 
@@ -62,7 +63,7 @@ func update_sprites():
 	while text.length() > 0:
 		if (text.begins_with(newline)):
 			x = 0
-			y += char_size
+			y += char_size+vert_space
 		else:
 			sprite_stack[i].frame = alphabet[text.substr(0,1).to_lower()]
 			sprite_stack[i].position = Vector2(x as float, y as float)
