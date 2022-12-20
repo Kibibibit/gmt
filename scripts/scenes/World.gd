@@ -46,9 +46,22 @@ class GridNode:
 	func _init(x: int, y: int):
 		pos = Vector2(x,y)
 
+func _ready():
+	if (Game.world_generated):
+		grid = Game.world_data
+		set_tiles()
+	else:
+		generate_world()
+
+func set_tiles():
+	tiles.clear()
+	for x in range(0, world_width):
+		for y in range(0, world_height):
+			var ax = floor((grid.at(x,y).walls) % 4)
+			var ay = floor((grid.at(x,y).walls as float) / 4)
+			tiles.set_cell(0,Vector2i(x,y),0,Vector2i(ax,ay))
 ## Generates the world using a randomised depth first search
 func generate_world():
-	tiles.clear()
 	grid.clear()
 	## Start by creating a blank grid
 	for x in range(0,world_width):
@@ -89,11 +102,11 @@ func generate_world():
 	while visited.size() > 0:
 		visited = generate_step(visited)
 	
-	for x in range(0, world_width):
-		for y in range(0, world_height):
-			var ax = floor((grid.at(x,y).walls) % 4)
-			var ay = floor((grid.at(x,y).walls as float) / 4)
-			tiles.set_cell(0,Vector2i(x,y),0,Vector2i(ax,ay))
+	Game.world_data = grid
+	Game.world_generated = true
+	set_tiles()
+	
+	
 	
 ## One iteration of the world generation
 func generate_step(visited: Array[GridNode]) -> Array[GridNode]:

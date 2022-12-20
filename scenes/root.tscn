@@ -5,3 +5,6 @@
 [node name="Root" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_to7l0")
+
+[node name="UI" type="Node2D" parent="."]
+z_index = 1000

@@ -10,6 +10,7 @@ var world: World = get_parent() as World
 @onready
 var move_timer: Timer = Timer.new()
 
+@onready
 var can_move: bool = true
 
 var move_speed: float = 0.15
@@ -23,9 +24,21 @@ func _ready():
 	sprite.texture = load("res://sprites/player.png")
 	add_child(sprite)
 
+func _unhandled_input(event):
+	if (Game.ui_stack.is_empty()):
+		if (event.is_action_pressed("ui_cancel")):
+			Game.display_dialog(PauseDialog.new())
+			Game.handle_input()
+
 func _process(delta):
-	var walls: int = world.grid.at_v(PlayerData.map_pos).walls
+	if (Game.ui_stack.is_empty()):
+		process_moving()
+	
+	self.position = self.position.lerp(PlayerData.map_pos * world.tile_size, delta*lerp_speed)
+
+func process_moving():
 	if (can_move):
+		var walls: int = world.grid.at_v(PlayerData.map_pos).walls
 		if Input.is_action_pressed("ui_down") && (walls & ~world.down_mask == 0):
 			PlayerData.map_pos.y += 1
 			moved()
@@ -38,9 +51,9 @@ func _process(delta):
 		elif Input.is_action_pressed("ui_right") && (walls & ~world.right_mask == 0):
 			PlayerData.map_pos.x += 1
 			moved()
-	
-	self.position = self.position.lerp(PlayerData.map_pos * world.tile_size, delta*lerp_speed)
-	
+
+
+
 func moved():
 	can_move = false
 	move_timer.start(move_speed)

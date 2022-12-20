@@ -14,10 +14,20 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://scripts/entities/Demon.gd"
 }, {
+"base": "Node2D",
+"class": &"Dialog",
+"language": &"GDScript",
+"path": "res://scripts/ui/Dialog.gd"
+}, {
 "base": "Object",
 "class": &"Grid",
 "language": &"GDScript",
 "path": "res://scripts/utils/data_structures/Grid.gd"
+}, {
+"base": "TextDialog",
+"class": &"PauseDialog",
+"language": &"GDScript",
+"path": "res://scripts/ui/dialogs/PauseDialog.gd"
 }, {
 "base": "Node2D",
 "class": &"PlayerMap",
@@ -30,15 +40,29 @@ _global_script_classes=[{
 "path": "res://scripts/scenes/Root.gd"
 }, {
 "base": "Node2D",
+"class": &"Text",
+"language": &"GDScript",
+"path": "res://scripts/ui/Text.gd"
+}, {
+"base": "Dialog",
+"class": &"TextDialog",
+"language": &"GDScript",
+"path": "res://scripts/ui/dialogs/TextDialog.gd"
+}, {
+"base": "Node2D",
 "class": &"World",
 "language": &"GDScript",
 "path": "res://scripts/scenes/World.gd"
 }]
 _global_script_class_icons={
 "Demon": "",
+"Dialog": "",
 "Grid": "",
+"PauseDialog": "",
 "PlayerMap": "",
 "Root": "",
+"Text": "",
+"TextDialog": "",
 "World": ""
 }
 
@@ -53,6 +77,8 @@ config/icon="res://icon.svg"
 
 Game="*res://scripts/utils/singletons/Game.gd"
 Utils="*res://scripts/utils/singletons/Utils.gd"
+Elements="*res://scripts/utils/singletons/Elements.gd"
+CSVLoader="*res://scripts/utils/singletons/CSVLoader.gd"
 DemonData="*res://scripts/utils/singletons/DemonData.gd"
 PlayerData="*res://scripts/utils/singletons/PlayerData.gd"
 

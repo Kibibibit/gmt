@@ -16,6 +16,7 @@ var mp_growth: float
 var speed_growth: float
 var strength_growth: float
 var magic_growth: float
+var affinities: int
 
 func _init(_demon_id: int):
 	demon_id = _demon_id
@@ -28,6 +29,12 @@ func _init(_demon_id: int):
 	speed_growth = data.speed_growth
 	magic_growth = data.magic_growth
 	strength_growth = data.strength_growth
+	max_hp = data.hp
+	max_mp = data.mp
+	speed = data.speed
+	strength = data.strength
+	magic = data.magic
+	affinities = data.affinities
 	## Can't have the player level up too early or it will break things
 	while(level != start_level && demon_id != DemonData.player_id):
 		self.level_up()

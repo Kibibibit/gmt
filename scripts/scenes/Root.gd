@@ -1,6 +1,9 @@
 class_name Root
 extends Node2D
 
+@onready
+var ui: Node2D = $UI
+
 func _init():
 	super()
 	# Force this node to have the right name just in case
@@ -12,6 +15,3 @@ func _ready():
 	randomize()
 	var world = load("res://scenes/world.tscn").instantiate()
 	add_child(world)
-	world.generate_world()
-
-
