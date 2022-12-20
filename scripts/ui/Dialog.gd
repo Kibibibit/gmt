@@ -1,6 +1,11 @@
 class_name Dialog
 extends Node2D
 
+signal dialog_closed(output)
+
+const YES = 1
+const NO = 2
+
 var base_texture = load("res://sprites/dialog.png")
 
 var frame_center := 0
@@ -12,6 +17,8 @@ var frame_left := 5
 var frame_right := 6
 var frame_top := 7
 var frame_bottom := 8
+
+var ret_value = 0
 
 @onready
 var top_left := Sprite2D.new()
@@ -57,17 +64,14 @@ func _init(w: int = border_size, h: int = border_size):
 	content_width = w
 	content_height = h
 
-func _process(delta):
+func _process(_delta):
 	is_current_dialog = Game.ui_stack.back() == self.get_instance_id()
-	if (is_current_dialog):
-		if_current_dialog(delta)
-
-func if_current_dialog(_delta:float):
-	pass
 
 func pop_dialog():
 	get_parent().remove_child(self)
 	self.queue_free()
+	Game.ui_stack.pop_back()
+	emit_signal("dialog_closed",ret_value)
 
 func resize(size: Vector2i):
 	content_width = size.x
@@ -120,6 +124,3 @@ func scale_sprite_height(sprite: Sprite2D, pixels: int):
 
 func make_scale(pixels: int) -> float:
 	return (pixels as float)/(border_size as float)
-
-func _exit_tree():
-	Game.ui_stack.pop_back()

@@ -24,8 +24,9 @@ func height() -> int:
 func root() -> Root:
 	return get_tree().root.get_node(root_node_name) as Root
 
-func display_dialog(dialog):
+func display_dialog(dialog: Dialog) -> int:
 	root().ui.add_child(dialog)
+	return await dialog.dialog_closed
 
 func handle_input():
 	get_tree().root.set_input_as_handled()

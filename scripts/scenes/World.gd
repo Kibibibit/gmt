@@ -152,3 +152,5 @@ func generate_step(visited: Array[GridNode]) -> Array[GridNode]:
 		grid.add_v(node.pos, node)
 		return visited
 	
+func _exit_tree():
+	grid.free()
