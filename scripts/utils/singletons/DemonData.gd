@@ -111,8 +111,6 @@ func make_affinity(raw_data: Dictionary, index: int) -> int:
 	return a
 
 
-
-
 class DemonStats:
 	var demon_name: String
 	var id: int

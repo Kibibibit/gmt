@@ -1,3 +1,4 @@
 id,name,level,hp,mp,str,mag,spd,hp_growth,mp_growth,str_growth,mag_growth,spd_growth,physical,gun,fire,lightning,ice,force,almighty
 1,Player,1,20,10,5,3,1,0,0,0,0,0,NONE,NONE,NONE,NONE,NONE,NONE,NONE
-2,Jack Frost,1,10,20,3,8,2,0.4,1,0.3,0.8,0.3,NONE,NONE,WEAK,NONE,NULL,NONE,NONE
+2,Jack Frost,1,10,20,3,8,2,0.4,0.95,0.3,0.8,0.3,NONE,NONE,WEAK,NONE,NULL,NONE,NONE
+3,Pixie,1,5,30,2,14,4,0.3,1,0.15,0.9,0.4,NONE,WEAK,NONE,STR,NONE,STR,NONE

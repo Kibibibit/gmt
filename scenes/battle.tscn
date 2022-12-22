@@ -1,6 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5ie1b5u5n0o7"]
+[gd_scene load_steps=4 format=3 uid="uid://c5ie1b5u5n0o7"]
 
 [ext_resource type="Script" path="res://scripts/scenes/Battle.gd" id="1_gotxy"]
+[ext_resource type="Texture2D" uid="uid://c8jf7os2f6ber" path="res://sprites/player-back.png" id="2_ttpk2"]
+[ext_resource type="Texture2D" uid="uid://dknwt4cj3vcrg" path="res://sprites/battle-ground.png" id="3_sfpob"]
 
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_gotxy")
+
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(221, 324)
+texture = ExtResource("2_ttpk2")
+centered = false
+
+[node name="GroundSpritePlayer" type="Sprite2D" parent="."]
+z_index = -4
+position = Vector2(252, 389)
+texture = ExtResource("3_sfpob")
+
+[node name="GroundSpriteEnemy" type="Sprite2D" parent="."]
+z_index = -4
+position = Vector2(631, 211)
+texture = ExtResource("3_sfpob")

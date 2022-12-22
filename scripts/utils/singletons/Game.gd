@@ -2,10 +2,11 @@ extends Node
 
 ## The name of the root node
 const root_node_name: String = "Root"
-
+const enemy_chance = 0.02
 var world_generated: bool = false
 var world_data: Grid
 
+var steps_since_last_battle = 0
 
 
 var ui_stack: Array[int] = []

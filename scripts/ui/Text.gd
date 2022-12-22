@@ -31,8 +31,22 @@ const alphabet = {
 	"<":26,
 	"?":27,
 	"!":28,
-	" ":29
+	" ":29,
+	">":30,
+	".":31,
+	"0":32,
+	"1":33,
+	"2":34,
+	"3":35,
+	"4":36, 
+	"5":37,
+	"6":38,
+	"7":39,
+	"8":40,
+	"9":41,
+	",":42
 }
+
 
 const newline = "\n"
 const char_size = 16
@@ -87,7 +101,7 @@ func create_sprite() -> Sprite2D:
 	sprite.centered = false
 	sprite.texture = texture
 	sprite.hframes = 8
-	sprite.vframes = 4
+	sprite.vframes = 6
 	return sprite
 
 func columns() -> int:

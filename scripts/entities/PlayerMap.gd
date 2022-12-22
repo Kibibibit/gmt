@@ -18,6 +18,7 @@ var move_speed: float = 0.15
 var lerp_speed: float = 15.0
 
 func _ready():
+	Game.steps_since_last_battle = 0
 	add_child(move_timer)
 	move_timer.connect("timeout", Callable(self,"_on_timeout"))
 	sprite.centered = false
@@ -33,6 +34,7 @@ func _unhandled_input(event):
 func _process(delta):
 	if (Game.ui_stack.is_empty()):
 		process_moving()
+	
 	
 	self.position = self.position.lerp(PlayerData.map_pos * world.tile_size, delta*lerp_speed)
 
@@ -51,7 +53,8 @@ func process_moving():
 		elif Input.is_action_pressed("ui_right") && (walls & ~world.right_mask == 0):
 			PlayerData.map_pos.x += 1
 			moved()
-
+		
+		
 
 
 func moved():
@@ -61,4 +64,7 @@ func moved():
 
 func _on_timeout():
 	can_move = true
+	Game.steps_since_last_battle += 1
+	if (randf() < Game.enemy_chance*Game.steps_since_last_battle):
+		Game.set_scene("battle")
 	
