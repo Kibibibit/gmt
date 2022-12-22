@@ -2,7 +2,7 @@ extends Node
 
 ## The name of the root node
 const root_node_name: String = "Root"
-const enemy_chance = 0.02
+const enemy_chance = 0.01
 var world_generated: bool = false
 var world_data: Grid = Grid.new()
 

@@ -18,7 +18,6 @@ var move_speed: float = 0.15
 var lerp_speed: float = 15.0
 
 func _ready():
-	Game.steps_since_last_battle = 0
 	add_child(move_timer)
 	move_timer.connect("timeout", Callable(self,"_on_timeout"))
 	sprite.centered = false
@@ -61,11 +60,13 @@ func process_moving():
 func moved():
 	can_move = false
 	move_timer.start(move_speed)
+	Game.steps_since_last_battle += 1
+	if (randf() < Game.enemy_chance*max(Game.steps_since_last_battle,-1)):
+		Game.steps_since_last_battle = -10
+		Game.set_scene("battle")
 	
 
 func _on_timeout():
 	can_move = true
-	Game.steps_since_last_battle += 1
-	if (randf() < Game.enemy_chance*Game.steps_since_last_battle):
-		Game.set_scene("battle")
+	
 	

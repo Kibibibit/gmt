@@ -50,6 +50,7 @@ func _ready():
 	if (!Game.world_generated):
 		generate_world()
 	set_tiles()
+	$PlayerMap.position = PlayerData.map_pos*tile_size
 		
 
 func set_tiles():
