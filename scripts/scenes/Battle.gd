@@ -4,6 +4,15 @@ extends Node2D
 const level_diff = 3
 const max_demon_count = 4
 
+const state_battle_begin = 0
+const state_player_turn = 1
+const state_enemy_turn = 2
+
+var battle_state = state_battle_begin
+
+var awaiting: bool = false
+
+
 @onready
 var player_sprite: Sprite2D = $PlayerSprite
 
@@ -11,19 +20,42 @@ var player_sprite: Sprite2D = $PlayerSprite
 var ground_player_sprite: Sprite2D = $GroundSpritePlayer
 
 @onready
+var ground_demon_sprite: Sprite2D = $GroundSpriteEnemy
+
+@onready
 var demons: Array[Demon] = []
 
+@onready
+var demon_sprites: Dictionary = {}
 
 @onready
 var battle_dialog: BattleDialog = BattleDialog.new()
 
+var max_enemy_press_turns: int = 4
+var max_player_press_turns: int = 4
+
+var enemy_press_turns: Array[bool] = []
+var player_press_turns: Array[bool] = []
+
+var timer: Timer = Timer.new()
+
 func _ready():
-	
+	timer.connect("timeout", Callable(self,"_on_timeout"))
 	player_sprite.position.y = ground_player_sprite.position.y - player_sprite.texture.get_height()
 	player_sprite.position.x = ground_player_sprite.position.x - (player_sprite.texture.get_width()*0.5)
 	Game.display_dialog(battle_dialog)
 	
 	spawn_demons()
+	var i = 0
+	for demon in demons:
+		var demon_sprite = Sprite2D.new()
+		demon_sprite.centered = false
+		demon_sprite.texture = load("res://sprites/player.png")
+		demon_sprites[demon.get_instance_id()] = demon_sprite
+		add_child(demon_sprite)
+		demon_sprite.position.x = ground_demon_sprite.position.x - (((demons.size()-1)*32)*0.5) + (i*32) - (0.5*demon_sprite.texture.get_width())
+		demon_sprite.position.y = ground_demon_sprite.position.y - demon_sprite.texture.get_height()
+		i += 1
 	
 	var names = []
 	for demon in demons:
@@ -40,8 +72,53 @@ func _ready():
 		
 		first = false
 	
-	appeared_string = "%s appeared!" % appeared_string
+	if (demons.size() == 1):
+		appeared_string = "An enemy! %s appeared!" % appeared_string
+	else:
+		appeared_string = "%d enemies! %s appeared!" % [demons.size(), appeared_string]
 	battle_dialog.set_text(appeared_string)
+	add_child(timer)
+	timer.start(2)
+
+func _on_timeout():
+	match battle_state:
+		state_battle_begin:
+			start_battle()
+			return
+		_:
+			return
+
+func start_battle():
+	awaiting = false
+	set_turn(state_player_turn)
+
+func set_turn(t: int):
+	battle_state = t
+	
+	if (battle_state == state_player_turn):
+		battle_dialog.set_text("Your turn! What will you do?")
+	else:
+		battle_dialog.set_text("Enemy turn!")
+
+func _unhandled_input(event):
+	if (awaiting):
+		return
+	
+	match battle_state:
+		state_battle_begin:
+			_input_battle_begin(event)
+			
+func _input_battle_begin(event: InputEvent):
+	if (event.is_action_pressed("menu_accept")):
+		timer.stop()
+		_on_timeout()
+		Game.handle_input()
+
+func refill_press_turns(turns: Array[bool], max_turns: int) -> Array[bool]:
+	turns = []
+	for i in range(0,max_turns):
+		turns.append(true)
+	return turns
 
 func spawn_demons():
 	for i in range(0, randi_range(1,max_demon_count)):
@@ -49,6 +126,7 @@ func spawn_demons():
 		while (demon == null):
 			demon = get_random_demon()
 		demons.append(demon)
+	max_enemy_press_turns = demons.size()
 
 func get_random_demon():
 	var id = randi_range(DemonData.player_id+1, DemonData.data.size())
@@ -61,3 +139,7 @@ func get_random_demon():
 			return null
 	
 	return demon
+
+func _exit_tree():
+	for demon in demons:
+		demon.free()
