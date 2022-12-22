@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://daamrqldcyxxg"]
+[gd_scene load_steps=3 format=3 uid="uid://daamrqldcyxxg"]
 
 [ext_resource type="Script" path="res://scripts/scenes/Root.gd" id="1_to7l0"]
+[ext_resource type="Script" path="res://scripts/ScreenEffects.gd" id="2_6dcea"]
 
 [node name="Root" type="Node2D"]
 texture_filter = 1
@@ -8,3 +9,7 @@ script = ExtResource("1_to7l0")
 
 [node name="UI" type="Node2D" parent="."]
 z_index = 1000
+
+[node name="ScreenEffects" type="Node2D" parent="."]
+z_index = 4096
+script = ExtResource("2_6dcea")

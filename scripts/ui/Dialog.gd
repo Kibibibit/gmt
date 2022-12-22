@@ -44,6 +44,8 @@ const border_size = 32
 var content_width: int
 var content_height: int
 
+var centered = false
+
 @onready
 var is_current_dialog: bool = false
 
@@ -76,6 +78,8 @@ func pop_dialog():
 func resize(size: Vector2i):
 	content_width = size.x
 	content_height = size.y
+	if (centered):
+		center_dialog()
 	set_sizes()
 	
 func _ready():
@@ -91,11 +95,13 @@ func _ready():
 	set_sizes()
 	Game.ui_stack.push_back(self.get_instance_id())
 
-func center_dialog():
+func center_dialog() -> Dialog:
 	var w: float = float(content_width + (border_size*2))
 	var h: float = float(content_height + (border_size*2))
 	position.x = float(Game.width())/2 - (w/2)
 	position.y = float(Game.height())/2 - (h/2)
+	centered = true
+	return self
 
 func set_sizes():
 	top_left.position = Vector2(0,0)

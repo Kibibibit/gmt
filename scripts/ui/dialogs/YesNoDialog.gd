@@ -17,11 +17,11 @@ func _init(s: String, p:String, n: String):
 
 func _unhandled_input(event):
 	if (is_current_dialog):
-		if (event.is_action_pressed("ui_up") || event.is_action_pressed("ui_down")):
+		if (event.is_action_pressed("menu_up") || event.is_action_pressed("menu_down")):
 			selected = abs(selected-1)
 			text.set_string(make_text())
 			Game.handle_input()
-		elif (event.is_action_pressed("ui_accept")):
+		elif (event.is_action_pressed("menu_accept")):
 			ret_value = selected+yes_no_offset
 			pop_dialog()
 			Game.handle_input()

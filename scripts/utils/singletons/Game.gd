@@ -6,6 +6,8 @@ const root_node_name: String = "Root"
 var world_generated: bool = false
 var world_data: Grid
 
+
+
 var ui_stack: Array[int] = []
 
 ## Get the size of the viewport
@@ -28,5 +30,11 @@ func display_dialog(dialog: Dialog) -> int:
 	root().ui.add_child(dialog)
 	return await dialog.dialog_closed
 
+func set_scene(world: String):
+	await root().set_scene(world)
+
 func handle_input():
 	get_tree().root.set_input_as_handled()
+
+func screen_wipe() -> ScreenEffects:
+	return root().screen_effects.screen_wipe()

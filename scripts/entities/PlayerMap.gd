@@ -26,10 +26,9 @@ func _ready():
 
 func _unhandled_input(event):
 	if (Game.ui_stack.is_empty()):
-		if (event.is_action_pressed("ui_accept")):
+		if (event.is_action_pressed("map_pause")):
 			Game.handle_input()
 			await Game.display_dialog(PauseDialog.new())
-			
 
 func _process(delta):
 	if (Game.ui_stack.is_empty()):
