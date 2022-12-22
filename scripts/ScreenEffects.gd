@@ -37,7 +37,7 @@ func _draw():
 		runnable.call()
 
 func screen_wipe(color: Color = Color(1,1,1)) -> ScreenEffects:
-	anim_speed = 1.4
+	anim_speed = 1.9
 	runnable = Callable(self,"_screen_wipe_tick").bind(color)
 	running = true
 	return self

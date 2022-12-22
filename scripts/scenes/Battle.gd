@@ -7,11 +7,16 @@ const max_demon_count = 4
 const state_battle_begin = 0
 const state_player_turn = 1
 const state_enemy_turn = 2
+const state_running = 3
+const state_running_failed = 4
 
 var battle_state = state_battle_begin
 
 var awaiting: bool = false
 
+const player_option_attack = 1
+const player_option_skill = 2
+const player_option_run = 3
 
 @onready
 var player_sprite: Sprite2D = $PlayerSprite
@@ -32,7 +37,7 @@ var demon_sprites: Dictionary = {}
 var battle_dialog: BattleDialog = BattleDialog.new()
 
 var max_enemy_press_turns: int = 4
-var max_player_press_turns: int = 4
+var max_player_press_turns: int = 2
 
 var enemy_press_turns: Array[bool] = []
 var player_press_turns: Array[bool] = []
@@ -81,38 +86,87 @@ func _ready():
 	timer.start(2)
 
 func _on_timeout():
+	awaiting = false
 	match battle_state:
 		state_battle_begin:
 			start_battle()
+			return
+		state_running:
+			Game.set_scene(Root.scene_world)
+			return
+		state_running_failed:
+			set_turn(state_enemy_turn)
 			return
 		_:
 			return
 
 func start_battle():
-	awaiting = false
 	set_turn(state_player_turn)
 
 func set_turn(t: int):
-	battle_state = t
 	
-	if (battle_state == state_player_turn):
+	
+	if (t == state_player_turn):
 		battle_dialog.set_text("Your turn! What will you do?")
+		player_press_turns = refill_press_turns(player_press_turns, max_player_press_turns)
 	else:
 		battle_dialog.set_text("Enemy turn!")
-
+		enemy_press_turns = refill_press_turns(enemy_press_turns, max_enemy_press_turns)
+	
+	battle_state = t
 func _unhandled_input(event):
 	if (awaiting):
 		return
 	
 	match battle_state:
-		state_battle_begin:
-			_input_battle_begin(event)
-			
-func _input_battle_begin(event: InputEvent):
+		state_battle_begin,state_running, state_running_failed:
+			cancel_timer(event)
+		_:
+			return
+
+func cancel_timer(event: InputEvent):
 	if (event.is_action_pressed("menu_accept")):
 		timer.stop()
 		_on_timeout()
 		Game.handle_input()
+
+func _process(_delta):
+	if (awaiting):
+		return
+	match battle_state:
+		state_player_turn:
+			await _process_player_turn(_delta)
+
+func _process_player_turn(_delta: float):
+	
+	var player_action = 0
+	awaiting = true
+	while (player_action == 0):
+		var option_dialog: SelectDialog = SelectDialog.new("What will you do?",["Attack","Skill","Run"])
+		var option = await Game.display_dialog(option_dialog)
+		
+		match option:
+			player_option_attack:
+				pass
+			player_option_skill:
+				pass
+			player_option_run:
+				player_action = player_option_run
+				player_run()
+	
+	awaiting = false
+
+func get_run_chance():
+	return 1.0
+
+func player_run():
+	if (randf() <= get_run_chance()):
+		battle_dialog.set_text("You ran away!")
+		battle_state = state_running
+	else:
+		battle_dialog.set_text("You could not escape!")
+		battle_state = state_running_failed
+	timer.start(2)
 
 func refill_press_turns(turns: Array[bool], max_turns: int) -> Array[bool]:
 	turns = []
@@ -143,3 +197,4 @@ func get_random_demon():
 func _exit_tree():
 	for demon in demons:
 		demon.free()
+	battle_dialog.pop_dialog()

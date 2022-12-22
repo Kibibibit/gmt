@@ -4,7 +4,7 @@ extends Node
 const root_node_name: String = "Root"
 const enemy_chance = 0.02
 var world_generated: bool = false
-var world_data: Grid
+var world_data: Grid = Grid.new()
 
 var steps_since_last_battle = 0
 
@@ -39,3 +39,6 @@ func handle_input():
 
 func screen_wipe() -> ScreenEffects:
 	return root().screen_effects.screen_wipe()
+
+func _exit_tree():
+	world_data.free()

@@ -36,7 +36,7 @@ var start: Vector2 = Vector2(0,0)
 
 ## The grid storing the world gen data
 @onready
-var grid: Grid = Grid.new()
+var grid: Grid = Game.world_data
 
 ## Small helper class storing the positions, walls and visited status of each point on the map
 class GridNode:
@@ -47,11 +47,10 @@ class GridNode:
 		pos = Vector2(x,y)
 
 func _ready():
-	if (Game.world_generated):
-		grid = Game.world_data
-		set_tiles()
-	else:
+	if (!Game.world_generated):
 		generate_world()
+	set_tiles()
+		
 
 func set_tiles():
 	tiles.clear()
@@ -104,7 +103,6 @@ func generate_world():
 	
 	Game.world_data = grid
 	Game.world_generated = true
-	set_tiles()
 	
 	
 	
@@ -151,6 +149,3 @@ func generate_step(visited: Array[GridNode]) -> Array[GridNode]:
 		grid.add_v(next.pos, next)
 		grid.add_v(node.pos, node)
 		return visited
-	
-func _exit_tree():
-	grid.free()

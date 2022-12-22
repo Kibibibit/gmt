@@ -24,6 +24,8 @@ func _ready():
 	sprite.centered = false
 	sprite.texture = load("res://sprites/player.png")
 	add_child(sprite)
+	
+	self.position = PlayerData.map_pos * world.tile_size
 
 func _unhandled_input(event):
 	if (Game.ui_stack.is_empty()):
@@ -34,7 +36,6 @@ func _unhandled_input(event):
 func _process(delta):
 	if (Game.ui_stack.is_empty()):
 		process_moving()
-	
 	
 	self.position = self.position.lerp(PlayerData.map_pos * world.tile_size, delta*lerp_speed)
 
