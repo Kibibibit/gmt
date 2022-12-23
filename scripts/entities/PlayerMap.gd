@@ -41,16 +41,16 @@ func _process(delta):
 func process_moving():
 	if (can_move):
 		var walls: int = world.grid.at_v(PlayerData.map_pos).walls
-		if Input.is_action_pressed("ui_down") && (walls & ~world.down_mask == 0):
+		if Input.is_action_pressed("menu_down") && (walls & ~world.down_mask == 0):
 			PlayerData.map_pos.y += 1
 			moved()
-		elif Input.is_action_pressed("ui_up") && (walls & ~world.up_mask == 0):
+		elif Input.is_action_pressed("menu_up") && (walls & ~world.up_mask == 0):
 			PlayerData.map_pos.y -= 1
 			moved()
-		elif Input.is_action_pressed("ui_left") && (walls & ~world.left_mask == 0):
+		elif Input.is_action_pressed("menu_left") && (walls & ~world.left_mask == 0):
 			PlayerData.map_pos.x -= 1
 			moved()
-		elif Input.is_action_pressed("ui_right") && (walls & ~world.right_mask == 0):
+		elif Input.is_action_pressed("menu_right") && (walls & ~world.right_mask == 0):
 			PlayerData.map_pos.x += 1
 			moved()
 		

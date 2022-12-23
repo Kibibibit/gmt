@@ -14,19 +14,19 @@ func _init(s: String, o: Array[String]):
 
 func _unhandled_input(event):
 	if (is_current_dialog):
-		if (event.is_action_pressed("menu_up")):
+		if (event.is_action_released("menu_up")):
 			selected_option -= 1
 			if (selected_option < 0):
 				selected_option = options.size() - 1
 			text.set_string(make_text())
 			Game.handle_input()
-		elif (event.is_action_pressed("menu_down")):
+		elif (event.is_action_released("menu_down")):
 			selected_option += 1
 			if (selected_option >= options.size()):
 				selected_option = 0
 			text.set_string(make_text())
 			Game.handle_input()
-		elif (event.is_action_pressed("menu_accept")):
+		elif (event.is_action_released("menu_accept")):
 			ret_value = selected_option+selected_offset
 			pop_dialog()
 			Game.handle_input()

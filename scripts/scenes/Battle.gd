@@ -86,7 +86,6 @@ func _ready():
 	timer.start(2)
 
 func _on_timeout():
-	awaiting = false
 	match battle_state:
 		state_battle_begin:
 			start_battle()
@@ -104,8 +103,6 @@ func start_battle():
 	set_turn(state_player_turn)
 
 func set_turn(t: int):
-	
-	
 	if (t == state_player_turn):
 		battle_dialog.set_text("Your turn! What will you do?")
 		player_press_turns = refill_press_turns(player_press_turns, max_player_press_turns)
@@ -125,12 +122,15 @@ func _unhandled_input(event):
 			return
 
 func cancel_timer(event: InputEvent):
-	if (event.is_action_pressed("menu_accept")):
-		timer.stop()
-		_on_timeout()
-		Game.handle_input()
+	if (!timer.is_stopped()):
+		if (event.is_action_released("menu_accept")):
+			Game.handle_input()
+			timer.stop()
+			_on_timeout()
+		
 
 func _process(_delta):
+	
 	if (awaiting):
 		return
 	match battle_state:
@@ -139,21 +139,17 @@ func _process(_delta):
 
 func _process_player_turn(_delta: float):
 	
-	var player_action = 0
 	awaiting = true
-	while (player_action == 0):
-		var option_dialog: SelectDialog = SelectDialog.new("What will you do?",["Attack","Skill","Run"])
-		var option = await Game.display_dialog(option_dialog)
-		
-		match option:
-			player_option_attack:
-				pass
-			player_option_skill:
-				pass
-			player_option_run:
-				player_action = player_option_run
-				player_run()
-	
+	var option_dialog: SelectDialog = SelectDialog.new("What will you do?",["Attack","Skill","Run"])
+	var option = await Game.display_dialog(option_dialog)
+	match option:
+		player_option_attack:
+			pass
+		player_option_skill:
+			pass
+		player_option_run:
+			player_run()
+
 	awaiting = false
 
 func get_run_chance():

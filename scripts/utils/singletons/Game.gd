@@ -29,6 +29,7 @@ func root() -> Root:
 
 func display_dialog(dialog: Dialog) -> int:
 	root().ui.add_child(dialog)
+	print("Hello! ", dialog)
 	return await dialog.dialog_closed
 
 func set_scene(world: String):
